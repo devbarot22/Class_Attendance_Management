@@ -22,9 +22,9 @@ const MainPage: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-screen  min-w-full">
+      <div>
         <TopNavBar authUser={authUser} />
-        <div className="flex  w-screen">
+        <div className="flex">
           <SideNav />
           <MainScreenFileUploader />
         </div>
