@@ -1,30 +1,36 @@
-# React + TypeScript + Vite
+# Student_Attendance_Management_WebApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Problem Statement
+Teachers face challenges in managing class attendance and organizing student data efficiently.
 
-Currently, two official plugins are available:
+## Solution
+Developed a web application using React.js, TypeScript, and Firebase, allowing teachers to create, delete, and manage classes and store, save, retrieve students data and managing attendance of students. In Upcoming Updates gone implement QR code scanning for student attendance.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Functionality
+- Create and delete classes
+- Store and retrieve student data
+- Track student attendance using QR code scanning(Upcoming Update)
+- Firebase authentication(Email, Password and Google Authentication)for secure access 
+- Real-time data synchronization with Firebase Firestore
 
-## Expanding the ESLint configuration
+## Planned Functionalities
+- Improved data visualization and analytics
+- Enhanced QR code scanning features
+- Automated notifications for absent students
+- Customizable attendance reports
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tech Stack
+- React.js
+- TypeScript
+- Firebase Authentication
+- Firebase Firestore
+- Firebase Hosting
+- React Icons
+- React Router
+- React Navigate
+- Lucide React...etc
 
-- Configure the top-level `parserOptions` property like this:
+## Conclusion
+The Class Attendance Management System addresses the challenges faced by teachers in managing class attendance and student data. By leveraging modern web technologies and cloud services, the application provides an intuitive and efficient solution for class attendance management.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
