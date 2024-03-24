@@ -26,7 +26,7 @@ const SignIn = () => {
 
   const [authError, setAuthError] = useState('');
 
-  const [userEmail, setUserEmail] = useState('');
+  const [, setUserEmail] = useState('');
 
 
   const [showPassword, setShowPassword] = useState<boolean | undefined>(false);

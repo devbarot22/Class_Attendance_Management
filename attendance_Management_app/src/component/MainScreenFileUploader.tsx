@@ -18,7 +18,7 @@ const MainScreenFileUploader: React.FC = () => {
 
 
 
-  const [file, setFile] = useState<File | null>(null);
+  const [, setFile] = useState<File | null>(null);
   const [fileData, setFileData] = useState<Array<{ [key: string]: string }>>([]);
   const [tableHeaders, setTableHeaders] = useState<string[]>([]);
   const [classes, setClasses] = useState<string[]>(['']);

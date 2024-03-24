@@ -25,7 +25,7 @@ const MainPage: React.FC = () => {
       <div>
         <TopNavBar authUser={authUser} />
         <div className="flex">
-          <SideNav />
+          <SideNav isOpen={false} />
           <MainScreenFileUploader />
         </div>
       </div>

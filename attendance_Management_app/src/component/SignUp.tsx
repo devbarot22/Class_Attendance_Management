@@ -29,7 +29,7 @@ const SignUp = () => {
     confirmPassword: ''
   });
 
-  const [userEmail, setUserEmail] = useState('');
+  const [, setUserEmail] = useState('');
 
   const [touched, setTouched] = useState({
     fullname: false,
