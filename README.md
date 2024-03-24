@@ -33,4 +33,3 @@ Developed a web application using React.js, TypeScript, and Firebase, allowing t
 ## Conclusion
 The Class Attendance Management System addresses the challenges faced by teachers in managing class attendance and student data. By leveraging modern web technologies and cloud services, the application provides an intuitive and efficient solution for class attendance management.
 
-
