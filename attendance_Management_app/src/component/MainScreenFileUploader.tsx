@@ -165,8 +165,18 @@ const MainScreenFileUploader: React.FC = () => {
 
 
   const handleDeleteClass = async (classToDelete: string) => {
-    if (!classToDelete || !window.confirm(`Are you sure you want to delete ${classToDelete} class?`)) {
-      toast.error('There is no class in there you blind ass');
+
+    if (classToDelete === 'Classes') {
+      toast.error("Cannot delete the default class 'Classes'");
+      return;
+    }
+
+    if (!classToDelete) {
+      toast.error('Select class to delete');
+      return;
+    }
+
+    if (!window.confirm(`Are you sure you want to delete ${classToDelete} class?`)) {
       return;
     }
 
@@ -180,6 +190,16 @@ const MainScreenFileUploader: React.FC = () => {
     try {
       const docRef = doc(db, `users/${authUser.uid}/classes/${classToDelete}`);
       await deleteDoc(docRef);
+
+      const classesRef = collection(db, `users/${authUser.uid}/classes`);
+      const classesSnapshot = await getDocs(classesRef);
+      const remainingClasses = classesSnapshot.docs.map(doc => doc.id);
+
+      if (remainingClasses.length === 0) {
+        setFileData([]);
+        setTableHeaders([]);
+      }
+
       toast.info("Class deleted successfull!");
     } catch (error) {
       console.error('Error delete class:', error);
@@ -209,7 +229,6 @@ const MainScreenFileUploader: React.FC = () => {
         console.error('Error saving data: ', error);
         toast.error('Error saving data');
       });
-      console.log('saved fileData', fileData)
       toast.success(`Data stored successfully in ${selectedClass}`);
       setTimeout(() => {
         postMessage('');
@@ -223,14 +242,12 @@ const MainScreenFileUploader: React.FC = () => {
 
 
   async function getFirestoreTableData(userUID: string, className: string | undefined) {
-    console.log('getFirestoreTableData called with userUID:', userUID, 'and className:', className);
     if (!className) {
       throw new Error('Class name is not provided');
     }
     const docRef = doc(db, 'users', userUID, 'classes', className);
     const docSnap = await getDoc(docRef);
 
-    // console.log('Firestore document data:', docSnap.data());
     if (docSnap?.exists()) {
       return docSnap?.data()?.tableData ?? [];
     } else {
@@ -247,7 +264,6 @@ const MainScreenFileUploader: React.FC = () => {
 
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // console.log('handleSelectChange called with event:', e);
     setSelectedClass(e.target.value);
     handleClassChange(e);
   };
@@ -255,16 +271,17 @@ const MainScreenFileUploader: React.FC = () => {
     const newClass = e?.target?.value;
     setSelectedClass(newClass);
 
-    if (newClass === '') {
+    if (newClass === '' || newClass === 'Classes') {
       setFileData([]);
       setTableHeaders([]);
       return;
     }
 
+        
+
     if (authUser && authUser.uid) {
       try {
         const firestoreData = await getFirestoreTableData(authUser.uid, newClass);
-        console.log('firestoreData:', firestoreData);
 
         // Transform the Firestore data to match the structure expected by the table
         const transformedData = firestoreData.map((row: any) => {
