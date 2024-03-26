@@ -21,7 +21,7 @@ const firebaseErrorCodes = {
 
 
 
-const SignUp = () => {
+const SignUp = (props:any) => {
   const [formData, setFormData] = useState({
     fullname: '',
     email: '',
@@ -195,9 +195,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col w-1/2 bg-gray-300 min-h-screen justify-center items-center">
-      <h1 className="mb-4 text-3xl text-black font-semibold">NEW HERE? SIGNUP TO GET STARTED</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col p-10 shadow-2xl shadow-slate-800 rounded-lg mt-5">
+    <div className="flex flex-col w-1/2 bg-gray-300 min-h-screen justify-center items-center max-md:w-screen">
+      <h1 className="mb-4 text-3xl text-center text-black font-semibold">NEW HERE? SIGNUP TO GET STARTED</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col p-10 shadow-2xl shadow-slate-800 rounded-lg mt-2">
         <label htmlFor="fullname" className="text-black text-lg w-80">Full Name</label>
         <input
           type="text"
@@ -273,7 +273,10 @@ const SignUp = () => {
 
         <button type="submit" className="text-black py-2 mt-5 bg-slate-200 text-center w-full shadow-sm shadow-slate-400 rounded-sm cursor-pointer">Sign Up</button>
 
+
         <button type="button" className="text-white mt-4 bg-black rounded-[5px] p-[8px]" onClick={handleGoogleSignUp}><img src={GoogleLogo} className="inline-block w-6 h-6 cursor-pointer" alt='Google-logo' /> Sign Up Using Google </button>
+
+        <button onClick={props.toggleForm} type="button" className="max-md:block hidden text-black mt-2 text-center text-sm cursor-pointer hover:text-gray-900">Already Signed In? Sign In</button>
       </form>
     </div>
   );

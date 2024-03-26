@@ -277,7 +277,7 @@ const MainScreenFileUploader: React.FC = () => {
       return;
     }
 
-        
+
 
     if (authUser && authUser.uid) {
       try {
@@ -318,7 +318,7 @@ const MainScreenFileUploader: React.FC = () => {
   const fileInputRef = React.useRef(null);
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] overflow-x-auto relative">
-      <div className='relative h-24 w-screen sm:w-[88vw]'>
+      <div className='relative h-24 mb-3 w-screen sm:w-[88vw]'>
         <input
           type="file"
           ref={fileInputRef}
@@ -326,21 +326,21 @@ const MainScreenFileUploader: React.FC = () => {
           onChange={handleFileUpload as unknown as ChangeEventHandler<HTMLInputElement>}
         />
         <div className='flex justify-start items-center'>
-          <select className='absolute bottom-1 left-1' value={selectedClass} onChange={handleSelectChange}>
+          <select className='absolute bottom-1 left-1 bg-transparent border shadow-md' value={selectedClass} onChange={handleSelectChange}>
             {classes.map((className, index) => (
               <option key={index} value={className}>
                 {className}
               </option>
             ))}
           </select>
-          <div className=' flex'>
-            <button title='add class' onClick={handleAddClass} className='absolute bottom-7 bg-gray-400 ml-1 inline-flex'><FaPlus /></button>
-            <button title='delete class' onClick={() => handleDeleteClass(selectedClass)} className='absolute bottom-7  bg-gray-400 ml-6 inline-flex'><FaTimes /></button>
+          <div className='flex'>
+            <button title='add class' onClick={handleAddClass} className='absolute bottom-7 bg-gray-400 ml-1 inline-flex mb-px'><FaPlus /></button>
+            <button title='delete class' onClick={() => handleDeleteClass(selectedClass)} className='absolute bottom-7  bg-gray-400 ml-6 mb-px inline-flex'><FaTimes /></button>
           </div>
         </div>
         <div className='flex justify-center items-center'>
-          <button onClick={() => (fileInputRef?.current as unknown as HTMLInputElement)?.click()} className='bg-gray-400 w-fit absolute bottom-1 right-16 rounded-[5px] px-2 py-px mt-10'>Upload CSV</button>
-          <button onClick={saveData} className=' bg-gray-400 w-fit px-2 py-px mt-10 right-1 bottom-1 absolute rounded-[5px]'>Save</button>
+          <button onClick={() => (fileInputRef?.current as unknown as HTMLInputElement)?.click()} className='bg-transparent border shadow-md w-fit absolute bottom-1 right-16 rounded-[3px] px-2 py-px mt-10 max-sm:px-1 max-sm:text-sm max-sm:right-12'>Upload CSV</button>
+          <button onClick={saveData} className=' bg-transparent border shadow-md w-fit px-2 py-px mt-10 right-1 bottom-1 absolute rounded-[3px] max-sm:px-1 max-sm:text-sm '>Save</button>
         </div>
       </div>
 

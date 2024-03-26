@@ -17,6 +17,10 @@
         },
       },
       extend: {
+        screens: {
+          'md': '850px',
+          // => @media (min-width: 992px) { ... }
+        },
         colors: {
           border: "hsl(var(--border))",
           input: "hsl(var(--input))",

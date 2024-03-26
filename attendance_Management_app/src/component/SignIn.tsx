@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SignIn = () => {
+const SignIn = (props:any) => {
 
 
   //all state variable
@@ -156,7 +156,7 @@ const SignIn = () => {
 
 
   return (
-    <div className="flex flex-col w-1/2 bg-slate-400 min-h-screen justify-center items-center">
+    <div className="max-md:w-screen flex flex-col w-1/2 bg-slate-400 min-h-screen justify-center items-center ">
 
       <h1 className="mb-4 text-3xl text-blac font-semibold">SIGN IN TO YOUR ACCOUNT</h1>
       <form onSubmit={handleSubmit} className="flex flex-col p-10 shadow-2xl shadow-slate-800 rounded-lg @">
@@ -197,6 +197,8 @@ const SignIn = () => {
         <button type="submit" className="text-black py-2 mt-9 text-center w-full shadow-xl bg-slate-200 cursor-pointer">Sign In</button>
 
         <button type="button" className="text-white mt-4 bg-black rounded-[5px] p-[8px]" onClick={handleGoogleSignIn}><img src={GoogleLogo} className="inline-block w-6 h-6 cursor-pointer" alt='Google-logo' /> Sign In Using Google </button>
+
+        <button onClick={props.toggleForm} type="button" className="max-md:block hidden text-black mt-2 text-center text-sm cursor-pointer hover:text-gray-900">Don't have an account? Sign Up</button>
       </form>
     </div>
   );

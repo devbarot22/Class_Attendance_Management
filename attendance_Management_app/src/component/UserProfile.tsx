@@ -20,7 +20,7 @@ const UserProfile = ({ authUser }: { authUser: any }) => {
   }
 
   return (
-    <div style={{ position: 'relative', height: '4rem', display: 'flex', cursor: 'pointer', right: '0', alignItems: 'center', justifyContent: 'flex-end', }}>
+    <div className='flex relative h-16 cursor-pointer right-0 items-center justify-end'>
       <Avatar
         name={authUser?.displayName}
         src={authUser?.photoUrl}
@@ -30,15 +30,14 @@ const UserProfile = ({ authUser }: { authUser: any }) => {
         onClick={toggleDropDown}
       />
       {dropDownVisible && (
-        <div style={{ position: 'absolute', padding: '12px', marginRight: '20px', zIndex: 1, backgroundColor: 'gray', marginTop: '35vh', borderRadius: '5px', textAlign: 'center' }}>
-          <Link to="/AuthPage" className='text-sm text-white hover:text-slate-400' onClick={handleSignOut}><button type='button' className='mt-4 mb-2' onClick={() => setDropDownVisible(false)} >SignOut</button>
+        <div className='sm:text-sm absolute p-3 sm:w-24 mr-5 z-10 rounded-xl bg-gray-500 sm:mt-44 max-sm:mt-40 max-sm:text-xs max-sm:w-24 flex flex-col items-center text-center text-wrap'>
+          <Link to="/AuthPage" className='text-sm text-white hover:text-slate-400' onClick={handleSignOut}><button type='button' className='max-sm:mt-px max-sm:text-xs' onClick={() => setDropDownVisible(false)} >SignOut</button>
+          <hr className='sm:mt-3 sm:mb-2 max-sm:mt-3 max-sm:mb-3 max-sm:w-24 text-white' />
           </Link>
-          <hr className='mt-3 mb-3 text-white' />
           <div className="grid place-items-center cursor-default">
             <p className='text-white'>User Info</p>
-            <hr className='mt-3 w-2/3' />
-            <div className="text-white text-xs mt-5 cursor-default">{authUser.displayName}</div>
-            <div className="text-white text-xs mt-5 mb-4 cursor-default">{authUser.email}</div>
+            <hr className='sm:mt-2 sm:w-2/3 max-sm:mt-px max-sm:w-12' />
+            <div className="text-white text-xs sm:mt-2 max-sm:mt-1 cursor-default">{authUser.displayName}</div>
           </div>
         </div>
       )}
