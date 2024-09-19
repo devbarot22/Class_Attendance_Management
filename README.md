@@ -14,7 +14,7 @@ Developed a web application using React.js, TypeScript, and Firebase, allowing t
 - Real-time data synchronization with Firebase Firestore
 
 ## Planned Functionalities
-- Improved data visualization and analytics
+- Enhanced data visualization and analytics
 - Enhanced QR code scanning features
 - Automated notifications for absent students
 - Customizable attendance reports
