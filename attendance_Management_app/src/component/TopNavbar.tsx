@@ -14,10 +14,9 @@ const TopNavbar = ({ authUser }: { authUser: any }) => {
 
   return (
     <>
-      <div className="max-sm:hidden">
-        <nav className="flex items-center h-16 min-w-screen justify-between bg-gray-200">
-          <Link to='/MainPage'><img src={Logo} alt="Logo" className="cursor-pointer mt-4 ml-2 w-20" /></Link>
-          <UserProfile authUser={authUser} />
+      <div className="max-sm:hidden relative right-0">
+        <nav className="absolute right-0 h-16 z-50">
+          <UserProfile authUser={authUser}/>
         </nav>
       </div>
 

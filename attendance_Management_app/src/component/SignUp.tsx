@@ -3,7 +3,7 @@ import GoogleLogo from "../assets/7123025_logo_google_g_icon.svg"
 import { useState } from 'react';
 import { GoogleAuthProvider, browserLocalPersistence, browserSessionPersistence, createUserWithEmailAndPassword, getAuth, sendEmailVerification, setPersistence, signInWithPopup, updateProfile } from 'firebase/auth'; // Import the createUserWithEmailAndPassword function
 // import { auth } from '../firebaseconfig'; // Import the auth object from your firebase.ts file
-import * as Yup from 'yup'; // Import Yup for form validation
+import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';

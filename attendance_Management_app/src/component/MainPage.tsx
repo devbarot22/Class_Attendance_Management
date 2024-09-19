@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import "firebase/compat/firestore";
-import MainScreenFileUploader from "./MainScreenFileUploader";
+import CoordinatorDashBoard from "./CoordinatorDashBoard";
 import SideNav from "./SideNav";
 import TopNavBar from "./TopNavbar";
 import React, { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ const MainPage: React.FC = () => {
         <TopNavBar authUser={authUser} />
         <div className="flex">
           <SideNav isOpen={false} />
-          <MainScreenFileUploader />
+          <CoordinatorDashBoard />
         </div>
       </div>
     </>

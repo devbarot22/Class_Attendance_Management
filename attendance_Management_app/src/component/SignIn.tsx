@@ -158,7 +158,7 @@ const SignIn = (props:any) => {
   return (
     <div className="max-md:w-screen flex flex-col w-1/2 bg-slate-400 min-h-screen justify-center items-center ">
 
-      <h1 className="mb-4 text-3xl text-blac font-semibold">SIGN IN TO YOUR ACCOUNT</h1>
+      <h1 className="mb-4 text-3xl text-black text-center font-semibold">SIGN IN TO YOUR ACCOUNT</h1>
       <form onSubmit={handleSubmit} className="flex flex-col p-10 shadow-2xl shadow-slate-800 rounded-lg @">
         <label htmlFor="email" className="text-black text-xl w-80">Email</label>
         <input
