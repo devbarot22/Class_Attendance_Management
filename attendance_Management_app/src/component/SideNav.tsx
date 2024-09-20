@@ -67,10 +67,10 @@ const SideNav = ({ isOpen }: { isOpen: boolean }) => {
               <h1 className="text-base font-semibold w-full text-center">Coordinator DashBoard</h1>
               <ul
                 style={dropdownStyle}
-                className="absolute w-full left-0 mt-2 bg-slate-500 border-b-2">
-                <li className="text-left bg-slate-500 py-2">xyz</li>
-                <li className="text-left bg-slate-500 py-2">xyz</li>
-                <li className="text-left bg-slate-500 py-2">xyz</li>
+                className="absolute w-full left-0 mt-2 pl-4 font-serif text-sm bg-slate-500 border-b-2">
+                <li className="bg-slate-500 py-2">Data Dump</li>
+                <li className="bg-slate-500 py-2">xyz</li>
+                <li className="bg-slate-500 py-2">xyz</li>
               </ul>
             </li>
           </ul>
@@ -84,10 +84,10 @@ const SideNav = ({ isOpen }: { isOpen: boolean }) => {
               <h1 className="text-base font-semibold w-full text-center">Attendee DashBoard</h1>
               <ul
                 style={dropdownStyleA}
-                className="absolute w-full left-0 mt-2 bg-slate-500 border-b-2">
-                <li className="text-left bg-slate-500 p-2">xyz</li>
-                <li className="text-left bg-slate-500 p-2">xyz</li>
-                <li className="text-left bg-slate-500 p-2">xyz</li>
+                className="absolute w-full left-0 mt-2 pl-4  font-serif text-sm bg-slate-500 border-b-2">
+                <li className="bg-slate-500 p-2">xyz</li>
+                <li className="bg-slate-500 p-2">xyz</li>
+                <li className="bg-slate-500 p-2">xyz</li>
               </ul>
             </li>
           </ul>

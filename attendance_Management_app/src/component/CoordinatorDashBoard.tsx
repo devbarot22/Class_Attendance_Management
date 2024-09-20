@@ -24,6 +24,8 @@ import {
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../firebaseconfig";
+import DatePickerWithPresets from "@/component/cordiDatePicker";
+import { format } from "date-fns";
 
 const CoordinatorDashBoard: React.FC = () => {
   const [authUser, setAuthUser] = useState<typeof user | null>(null);
@@ -35,6 +37,7 @@ const CoordinatorDashBoard: React.FC = () => {
   const [tableHeaders, setTableHeaders] = useState<string[]>([]);
   const [classes, setClasses] = useState<string[]>([""]);
   const [selectedClass, setSelectedClass] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // Initialize with today's date
 
   const { user } = useContext(UserContext) as { user: any };
 
@@ -72,7 +75,7 @@ const CoordinatorDashBoard: React.FC = () => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setAuthUser(user);
-    });
+    }); 
 
     return () => unsubscribe();
   }, [authUser]);
@@ -195,38 +198,50 @@ const CoordinatorDashBoard: React.FC = () => {
       return;
     }
 
-    const auth = getAuth();
-    const user = auth.currentUser;
+    if (!selectedDate) {
+      console.error("No date selected");
+      toast.error("Please select a date");
+      return;
+    }
 
-    if (user) {
-      const docRef = doc(db, `users/${authUser.uid}/classes/${selectedClass}`);
-      await setDoc(docRef, { tableData: fileData }, { merge: true }).catch(
-        (error) => {
-          console.error("Error saving data: ", error);
-          toast.error("Error saving data");
-        }
+    const formattedDate = format(selectedDate, "yyyy-MM-dd");
+
+    try {
+      const docRef = doc(
+        db,
+        `users/${authUser.uid}/classes/${selectedClass}/dates/${formattedDate}`
       );
-      toast.success(`Data stored successfully in ${selectedClass}`);
-      setTimeout(() => {
-        postMessage("");
-      }, 3000);
+      await setDoc(docRef, { tableData: fileData }, { merge: true });
+      toast.success(`Data stored successfully in class ${selectedClass} for the date ${formattedDate}`);
+    } catch (error) {
+      console.error("Error saving data: ", error);
+      toast.error("Error saving data");
     }
   };
 
   async function getFirestoreTableData(
     userUID: string,
-    className: string | undefined
+    className: string | undefined,
+    date: Date | null
   ) {
     if (!className) {
       throw new Error("Class name is not provided");
     }
-    const docRef = doc(db, "users", userUID, "classes", className);
+    if (!date) {
+      throw new Error("Date is not provided");
+    }
+
+    const formattedDate = format(date, "yyyy-MM-dd");
+    const docRef = doc(
+      db,
+      `users/${userUID}/classes/${className}/dates/${formattedDate}`
+    );
     const docSnap = await getDoc(docRef);
 
     if (docSnap?.exists()) {
       return docSnap?.data()?.tableData ?? [];
     } else {
-      throw new Error(`No Firestore data exists for class ${className}`);
+      throw new Error(`No Firestore data exists for class ${className} on ${formattedDate}`);
     }
   }
 
@@ -234,6 +249,7 @@ const CoordinatorDashBoard: React.FC = () => {
     setSelectedClass(value);
     handleClassChange(value);
   };
+
   const handleClassChange = async (values: any) => {
     const newClass = values?.target?.value || values; // Handle both event object and direct value
     console.log("Selected class:", newClass); // Debugging log
@@ -247,11 +263,12 @@ const CoordinatorDashBoard: React.FC = () => {
 
     setSelectedClass(newClass);
 
-    if (authUser && authUser.uid) {
+    if (authUser && authUser.uid && selectedDate) {
       try {
         const firestoreData = await getFirestoreTableData(
           authUser.uid,
-          newClass
+          newClass,
+          selectedDate
         );
 
         // Transform the Firestore data to match the structure expected by the table
@@ -271,7 +288,7 @@ const CoordinatorDashBoard: React.FC = () => {
         console.error(`Error getting Firestore table data: ${firestoreError}`);
       }
     } else {
-      console.error("No user is signed in");
+      console.error("No user is signed in or no date selected");
       setFileData([]);
       setTableHeaders([]);
     }
@@ -281,7 +298,7 @@ const CoordinatorDashBoard: React.FC = () => {
   return (
     <div className="flex flex-col h-[100vh] overflow-x-auto relative">
       {/* table's above part */}
-      <div className="relative mt-4 h-[96px] w-screen sm:w-[87vw]">
+      <div className="relative flex mt-4 h-[96px] w-screen sm:w-[87vw]">
         <input
           type="file"
           ref={fileInputRef}
@@ -290,52 +307,54 @@ const CoordinatorDashBoard: React.FC = () => {
             handleFileUpload as unknown as ChangeEventHandler<HTMLInputElement>
           }
         />
-        <Select onValueChange={handleSelectChange}>
-          <div className="w-36 absolute bottom-1 flex items-center left-1">
-            <button
-              title="add class"
-              onClick={handleAddClass}
-              className="z-10 absolute right-1">
-              <FaPlus />
-            </button>
-            <SelectTrigger className="flex pr-7 pl-2 items-center relative">
-              <SelectValue placeholder="Classes" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {classes.map((className, index) => (
-                  <div
-                    key={index}
-                    className="relative cursor-pointer group flex flex-row items-center">
-                    <SelectItem value={className || "i"}>
-                      {className}
-                    </SelectItem>
-                    <button
-                      className="absolute right-1 cursor-pointer hidden group-hover:block"
-                      onClick={() => handleDeleteClass(className)}>
-                      <FaTimes className="text-red-500 bg-gray-100 hover:bg-white" />
-                    </button>
-                  </div>
-                ))}
-              </SelectGroup>
-            </SelectContent>
+        <div className="flex w-full h-fit ml-2 bottom-2 absolute justify-start items-center space-x-4">
+          <div className="flex ml-1 w-2/5 space-x-2">
+            <div className="w-2/5 relative flex items-center">
+              <Select onValueChange={handleSelectChange}>
+                <SelectTrigger className="group flex pr-7 pl-2 items-center z-0 relative">
+                  <SelectValue placeholder="Classes" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {classes.map((className, index) => (
+                      <div
+                        key={index}
+                        className="relative cursor-pointer group flex flex-row items-center">
+                        <SelectItem value={className || "i"}>
+                          {className}
+                        </SelectItem>
+                        <button
+                          className="absolute right-1 cursor-pointer hidden group-hover:block"
+                          onClick={() => handleDeleteClass(className)}>
+                          <FaTimes className="text-red-500 bg-gray-100 hover:bg-white" />
+                        </button>
+                      </div>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+                <button
+                  title="Add Class"
+                  onClick={handleAddClass}
+                  className="absolute right-1">
+                  <FaPlus />
+                </button>
+              </Select>
+            </div>
+            <DatePickerWithPresets selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
           </div>
-        </Select>
-        <div className="flex justify-center items-center">
-          <Button
-            variant="outline"
-            onClick={() =>
-              (fileInputRef?.current as unknown as HTMLInputElement)?.click()
-            }
-            className="bg-transparent border shadow-md w-fit absolute bottom-1 right-16 rounded-[3px] px-2 py-px mt-10 max-sm:px-1 max-sm:text-sm max-sm:right-12">
-            Upload CSV
-          </Button>
-          <Button
-            variant="outline"
-            onClick={saveData}
-            className=" bg-transparent border shadow-md w-fit px-2 py-px mt-10 right-1 bottom-1 absolute rounded-[3px] max-sm:px-1 max-sm:text-sm ">
-            Save
-          </Button>
+          <div className="flex absolute right-5 space-x-2 justify-center items-center">
+            <Button
+              variant="outline"
+              onClick={() =>
+                (fileInputRef?.current as unknown as HTMLInputElement)?.click()
+              }
+              className="">
+              Upload CSV
+            </Button>
+            <Button variant="outline" onClick={saveData} className="">
+              Save
+            </Button>
+          </div>
         </div>
       </div>
       {/* table's above part ends here */}
@@ -446,4 +465,5 @@ const CoordinatorDashBoard: React.FC = () => {
     </div>
   );
 };
+
 export default CoordinatorDashBoard;
